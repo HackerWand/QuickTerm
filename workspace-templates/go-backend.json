@@ -1,0 +1,168 @@
+{
+  "version": "1.0",
+  "name": "Go 后端开发",
+  "groups": [
+    {
+      "id": 1,
+      "name": "项目管理",
+      "workspaceId": 0
+    },
+    {
+      "id": 2,
+      "name": "依赖管理",
+      "workspaceId": 0
+    },
+    {
+      "id": 3,
+      "name": "构建与运行",
+      "workspaceId": 0
+    },
+    {
+      "id": 4,
+      "name": "测试",
+      "workspaceId": 0
+    },
+    {
+      "id": 5,
+      "name": "代码质量",
+      "workspaceId": 0
+    }
+  ],
+  "commands": [
+    {
+      "id": 1,
+      "name": "初始化模块",
+      "content": "go mod init {{modulePath}}",
+      "description": "初始化 Go 模块",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "modulePath",
+          "type": "input",
+          "description": "模块路径（如 github.com/username/project）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "添加依赖",
+      "content": "go get {{packagePath}}",
+      "description": "添加 Go 包依赖",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "packagePath",
+          "type": "input",
+          "description": "包路径（如 github.com/gin-gonic/gin）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "整理依赖",
+      "content": "go mod tidy",
+      "description": "整理并更新依赖",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 4,
+      "name": "运行程序",
+      "content": "go run main.go",
+      "description": "运行 Go 程序",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 5,
+      "name": "构建程序",
+      "content": "go build -o {{outputName}} \"{{mainFile}}\"",
+      "description": "构建 Go 程序",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "outputName",
+          "type": "input",
+          "description": "输出可执行文件名称",
+          "options": []
+        },
+        {
+          "name": "mainFile",
+          "type": "file",
+          "description": "主文件路径（如 main.go）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "运行测试",
+      "content": "go test ./...",
+      "description": "运行所有测试",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 7,
+      "name": "测试覆盖率",
+      "content": "go test -cover ./...",
+      "description": "运行测试并显示覆盖率",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 8,
+      "name": "代码格式化",
+      "content": "gofmt -w .",
+      "description": "格式化 Go 代码",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 9,
+      "name": "静态分析",
+      "content": "go vet ./...",
+      "description": "运行静态代码分析",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 10,
+      "name": "查看依赖图",
+      "content": "go mod graph",
+      "description": "查看依赖关系图",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": []
+    }
+  ],
+  "ignored": [
+    {
+      "pattern": "^ls(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^cd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^pwd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^clear(\\s.*)?$",
+      "isRegex": true
+    }
+  ]
+}

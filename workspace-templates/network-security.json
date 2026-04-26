@@ -1,0 +1,300 @@
+{
+  "version": "1.0",
+  "name": "网络管理与安全",
+  "groups": [
+    {
+      "id": 1,
+      "name": "网络诊断",
+      "workspaceId": 0
+    },
+    {
+      "id": 2,
+      "name": "安全扫描",
+      "workspaceId": 0
+    },
+    {
+      "id": 3,
+      "name": "API 测试",
+      "workspaceId": 0
+    },
+    {
+      "id": 4,
+      "name": "网络工具",
+      "workspaceId": 0
+    },
+    {
+      "id": 5,
+      "name": "SSL 证书",
+      "workspaceId": 0
+    }
+  ],
+  "commands": [
+    {
+      "id": 1,
+      "name": "Ping 测试",
+      "content": "ping -c {{count}} {{host}}",
+      "description": "测试网络连通性",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "count",
+          "type": "number",
+          "description": "发送的 ping 包数量",
+          "options": []
+        },
+        {
+          "name": "host",
+          "type": "input",
+          "description": "目标主机或 IP 地址",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "路由追踪",
+      "content": "traceroute {{host}}",
+      "description": "追踪网络数据包的路由路径",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "host",
+          "type": "input",
+          "description": "目标主机或 IP 地址",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "网络扫描",
+      "content": "nmap -sV {{target}}",
+      "description": "扫描目标主机的开放端口和服务版本",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "target",
+          "type": "input",
+          "description": "目标主机、IP 地址或 IP 范围",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "端口扫描",
+      "content": "nmap -p {{ports}} {{target}}",
+      "description": "扫描指定端口范围",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "ports",
+          "type": "input",
+          "description": "端口范围（如 1-1000 或 80,443）",
+          "options": []
+        },
+        {
+          "name": "target",
+          "type": "input",
+          "description": "目标主机、IP 地址或 IP 范围",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "CURL GET 请求",
+      "content": "curl -X GET \"{{url}}\"",
+      "description": "发送 GET 请求到指定 URL",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "url",
+          "type": "input",
+          "description": "目标 URL 地址",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "CURL POST 请求",
+      "content": "curl -X POST -H \"Content-Type: application/json\" -d \"{{data}}\" \"{{url}}\"",
+      "description": "发送 POST 请求到指定 URL",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "data",
+          "type": "input",
+          "description": "JSON 格式的请求数据",
+          "options": []
+        },
+        {
+          "name": "url",
+          "type": "input",
+          "description": "目标 URL 地址",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "下载文件",
+      "content": "wget -O \"{{outputFile}}\" \"{{url}}\"",
+      "description": "从指定 URL 下载文件",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出文件保存路径",
+          "options": []
+        },
+        {
+          "name": "url",
+          "type": "input",
+          "description": "文件下载 URL",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "查看网络接口",
+      "content": "ifconfig",
+      "description": "查看网络接口信息",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 9,
+      "name": "查看路由表",
+      "content": "netstat -nr",
+      "description": "查看系统路由表",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 10,
+      "name": "查看网络连接",
+      "content": "netstat -an",
+      "description": "查看所有网络连接",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 11,
+      "name": "SSL 证书检查",
+      "content": "openssl s_client -connect {{host}}:443",
+      "description": "检查 SSL 证书信息",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "host",
+          "type": "input",
+          "description": "目标主机域名",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "生成 RSA 密钥对",
+      "content": "openssl genrsa -out \"{{privateKey}}\" 2048",
+      "description": "生成 2048 位 RSA 私钥",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "privateKey",
+          "type": "input",
+          "description": "私钥文件保存路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "从私钥提取公钥",
+      "content": "openssl rsa -in \"{{privateKey}}\" -pubout -out \"{{publicKey}}\"",
+      "description": "从私钥文件提取公钥",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "privateKey",
+          "type": "file",
+          "description": "私钥文件路径",
+          "options": []
+        },
+        {
+          "name": "publicKey",
+          "type": "input",
+          "description": "公钥文件保存路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "DNS 查询",
+      "content": "dig {{domain}}",
+      "description": "查询域名的 DNS 记录",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "domain",
+          "type": "input",
+          "description": "目标域名",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "WHOIS 查询",
+      "content": "whois {{domain}}",
+      "description": "查询域名的 WHOIS 信息",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "domain",
+          "type": "input",
+          "description": "目标域名",
+          "options": []
+        }
+      ]
+    }
+  ],
+  "ignored": [
+    {
+      "pattern": "^ls(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^cd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^pwd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^clear(\\s.*)?$",
+      "isRegex": true
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+{
+  "version": "1.0",
+  "name": "数据科学",
+  "groups": [
+    {
+      "id": 1,
+      "name": "环境管理",
+      "workspaceId": 0
+    },
+    {
+      "id": 2,
+      "name": "数据分析",
+      "workspaceId": 0
+    },
+    {
+      "id": 3,
+      "name": "模型训练",
+      "workspaceId": 0
+    },
+    {
+      "id": 4,
+      "name": "数据处理",
+      "workspaceId": 0
+    },
+    {
+      "id": 5,
+      "name": "工具命令",
+      "workspaceId": 0
+    }
+  ],
+  "commands": [
+    {
+      "id": 1,
+      "name": "创建虚拟环境",
+      "content": "python3 -m venv venv",
+      "description": "创建 Python 虚拟环境",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 2,
+      "name": "激活虚拟环境",
+      "content": "source venv/bin/activate",
+      "description": "激活 Python 虚拟环境（macOS/Linux）",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 3,
+      "name": "安装数据科学包",
+      "content": "pip install numpy pandas matplotlib scikit-learn jupyter",
+      "description": "安装常用数据科学包",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 4,
+      "name": "启动 Jupyter",
+      "content": "jupyter notebook",
+      "description": "启动 Jupyter Notebook",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 5,
+      "name": "运行 Python 脚本",
+      "content": "python \"{{scriptFile}}\" ",
+      "description": "运行 Python 脚本",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "scriptFile",
+          "type": "file",
+          "description": "Python脚本文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "查看包版本",
+      "content": "pip list",
+      "description": "查看已安装的包及其版本",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 7,
+      "name": "更新包",
+      "content": "pip install --upgrade {{packageName}}",
+      "description": "更新指定包",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "packageName",
+          "type": "input",
+          "description": "要更新的包名",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "数据文件查看",
+      "content": "head -n {{lines}} \"{{dataFile}}\" ",
+      "description": "查看数据文件前 N 行",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "lines",
+          "type": "number",
+          "description": "要查看的行数",
+          "options": []
+        },
+        {
+          "name": "dataFile",
+          "type": "file",
+          "description": "数据文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "文件大小",
+      "content": "du -h \"{{targetFile}}\" ",
+      "description": "查看文件大小",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "targetFile",
+          "type": "file",
+          "description": "要查看大小的文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "查看 GPU 使用",
+      "content": "nvidia-smi",
+      "description": "查看 NVIDIA GPU 使用情况",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": []
+    }
+  ],
+  "ignored": [
+    {
+      "pattern": "^ls(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^cd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^pwd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^clear(\\s.*)?$",
+      "isRegex": true
+    }
+  ]
+}

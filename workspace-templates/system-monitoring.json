@@ -1,0 +1,234 @@
+{
+  "version": "1.0",
+  "name": "系统维护与监控",
+  "groups": [
+    {
+      "id": 1,
+      "name": "系统资源",
+      "workspaceId": 0
+    },
+    {
+      "id": 2,
+      "name": "磁盘管理",
+      "workspaceId": 0
+    },
+    {
+      "id": 3,
+      "name": "进程管理",
+      "workspaceId": 0
+    },
+    {
+      "id": 4,
+      "name": "网络监控",
+      "workspaceId": 0
+    },
+    {
+      "id": 5,
+      "name": "系统日志",
+      "workspaceId": 0
+    }
+  ],
+  "commands": [
+    {
+      "id": 1,
+      "name": "查看系统负载",
+      "content": "uptime",
+      "description": "查看系统负载和运行时间",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 2,
+      "name": "查看 CPU 使用率",
+      "content": "top -n 1 -b",
+      "description": "查看 CPU 使用率和进程状态",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 3,
+      "name": "查看内存使用",
+      "content": "free -h",
+      "description": "查看内存使用情况",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 4,
+      "name": "查看磁盘使用",
+      "content": "df -h",
+      "description": "查看磁盘分区使用情况",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 5,
+      "name": "查看目录大小",
+      "content": "du -h --max-depth=1 \"{{directory}}\"",
+      "description": "查看指定目录下各子目录的大小",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "directory",
+          "type": "directory",
+          "description": "目标目录",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "查找大文件",
+      "content": "find \"{{directory}}\" -type f -size +{{size}} -exec ls -lh {} \\;",
+      "description": "查找指定目录下大于指定大小的文件",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "directory",
+          "type": "directory",
+          "description": "搜索目录",
+          "options": []
+        },
+        {
+          "name": "size",
+          "type": "input",
+          "description": "文件大小阈值（如 10M、1G）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "查看进程",
+      "content": "ps aux | grep {{processName}}",
+      "description": "查看指定进程的运行状态",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "processName",
+          "type": "input",
+          "description": "进程名称",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "杀死进程",
+      "content": "kill -9 {{pid}}",
+      "description": "强制终止指定 PID 的进程",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "pid",
+          "type": "number",
+          "description": "进程 ID",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "查看网络连接",
+      "content": "netstat -tuln",
+      "description": "查看所有监听的网络端口",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 10,
+      "name": "查看网络流量",
+      "content": "iftop -n",
+      "description": "实时查看网络流量",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 11,
+      "name": "查看系统日志",
+      "content": "tail -n {{lines}} /var/log/syslog",
+      "description": "查看系统日志的最后 N 行",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "lines",
+          "type": "number",
+          "description": "要显示的行数",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "查看安全日志",
+      "content": "tail -n {{lines}} /var/log/auth.log",
+      "description": "查看安全认证日志的最后 N 行",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "lines",
+          "type": "number",
+          "description": "要显示的行数",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "查看启动服务",
+      "content": "systemctl list-unit-files --type=service",
+      "description": "查看系统启动服务状态",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 14,
+      "name": "查看系统信息",
+      "content": "uname -a",
+      "description": "查看系统内核版本和架构",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 15,
+      "name": "查看硬件信息",
+      "content": "lshw -short",
+      "description": "查看系统硬件信息",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    }
+  ],
+  "ignored": [
+    {
+      "pattern": "^ls(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^cd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^pwd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^clear(\\s.*)?$",
+      "isRegex": true
+    }
+  ]
+}

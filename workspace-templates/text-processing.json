@@ -1,0 +1,405 @@
+{
+  "version": "1.0",
+  "name": "文本处理",
+  "groups": [
+    {
+      "id": 1,
+      "name": "搜索与匹配",
+      "workspaceId": 0
+    },
+    {
+      "id": 2,
+      "name": "文本转换",
+      "workspaceId": 0
+    },
+    {
+      "id": 3,
+      "name": "数据提取",
+      "workspaceId": 0
+    },
+    {
+      "id": 4,
+      "name": "批量处理",
+      "workspaceId": 0
+    },
+    {
+      "id": 5,
+      "name": "文件分析",
+      "workspaceId": 0
+    }
+  ],
+  "commands": [
+    {
+      "id": 1,
+      "name": "Grep 搜索",
+      "content": "grep -r \"{{pattern}}\" \"{{directory}}\"",
+      "description": "在指定目录中递归搜索包含指定模式的文件",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "pattern",
+          "type": "input",
+          "description": "搜索模式",
+          "options": []
+        },
+        {
+          "name": "directory",
+          "type": "directory",
+          "description": "搜索目录",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Grep 搜索（忽略大小写）",
+      "content": "grep -r -i \"{{pattern}}\" \"{{directory}}\"",
+      "description": "在指定目录中递归搜索包含指定模式的文件（忽略大小写）",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "pattern",
+          "type": "input",
+          "description": "搜索模式",
+          "options": []
+        },
+        {
+          "name": "directory",
+          "type": "directory",
+          "description": "搜索目录",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Grep 搜索（显示行号）",
+      "content": "grep -r -n \"{{pattern}}\" \"{{directory}}\"",
+      "description": "在指定目录中递归搜索包含指定模式的文件（显示行号）",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "pattern",
+          "type": "input",
+          "description": "搜索模式",
+          "options": []
+        },
+        {
+          "name": "directory",
+          "type": "directory",
+          "description": "搜索目录",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Sed 替换",
+      "content": "sed -i 's/{{oldPattern}}/{{newPattern}}/g' \"{{file}}\"",
+      "description": "在文件中替换指定模式",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "oldPattern",
+          "type": "input",
+          "description": "要替换的模式",
+          "options": []
+        },
+        {
+          "name": "newPattern",
+          "type": "input",
+          "description": "替换后的内容",
+          "options": []
+        },
+        {
+          "name": "file",
+          "type": "file",
+          "description": "目标文件",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Sed 替换（备份）",
+      "content": "sed -i.bak 's/{{oldPattern}}/{{newPattern}}/g' \"{{file}}\"",
+      "description": "在文件中替换指定模式并创建备份",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "oldPattern",
+          "type": "input",
+          "description": "要替换的模式",
+          "options": []
+        },
+        {
+          "name": "newPattern",
+          "type": "input",
+          "description": "替换后的内容",
+          "options": []
+        },
+        {
+          "name": "file",
+          "type": "file",
+          "description": "目标文件",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Awk 处理 CSV",
+      "content": "awk -F',' '{{awkScript}}' \"{{csvFile}}\"",
+      "description": "使用 Awk 处理 CSV 文件",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "awkScript",
+          "type": "input",
+          "description": "Awk 处理脚本",
+          "options": []
+        },
+        {
+          "name": "csvFile",
+          "type": "file",
+          "description": "CSV 文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "排序文件",
+      "content": "sort \"{{file}}\" > \"{{outputFile}}\"",
+      "description": "对文件内容进行排序",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "file",
+          "type": "file",
+          "description": "要排序的文件",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "input",
+          "description": "输出文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "去重",
+      "content": "sort \"{{file}}\" | uniq > \"{{outputFile}}\"",
+      "description": "对文件内容进行去重",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "file",
+          "type": "file",
+          "description": "要去重的文件",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "input",
+          "description": "输出文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "统计行数",
+      "content": "wc -l \"{{file}}\"",
+      "description": "统计文件的行数",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "file",
+          "type": "file",
+          "description": "要统计的文件",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "统计单词数",
+      "content": "wc -w \"{{file}}\"",
+      "description": "统计文件的单词数",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "file",
+          "type": "file",
+          "description": "要统计的文件",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "查看文件头部",
+      "content": "head -n {{lines}} \"{{file}}\"",
+      "description": "查看文件的前 N 行",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "lines",
+          "type": "number",
+          "description": "要显示的行数",
+          "options": []
+        },
+        {
+          "name": "file",
+          "type": "file",
+          "description": "目标文件",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "查看文件尾部",
+      "content": "tail -n {{lines}} \"{{file}}\"",
+      "description": "查看文件的后 N 行",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "lines",
+          "type": "number",
+          "description": "要显示的行数",
+          "options": []
+        },
+        {
+          "name": "file",
+          "type": "file",
+          "description": "目标文件",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "批量重命名文件",
+      "content": "cd \"{{directory}}\" && for file in *.{{oldExt}}; do mv \"$file\" \"${file%.{{oldExt}}}.{{newExt}}\"; done",
+      "description": "批量将文件从一种扩展名转换为另一种扩展名",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "directory",
+          "type": "directory",
+          "description": "目标目录",
+          "options": []
+        },
+        {
+          "name": "oldExt",
+          "type": "input",
+          "description": "原扩展名（不带点）",
+          "options": []
+        },
+        {
+          "name": "newExt",
+          "type": "input",
+          "description": "新扩展名（不带点）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "批量替换文件内容",
+      "content": "cd \"{{directory}}\" && for file in *.{{ext}}; do sed -i 's/{{oldPattern}}/{{newPattern}}/g' \"$file\"; done",
+      "description": "批量替换指定目录下所有文件的内容",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "directory",
+          "type": "directory",
+          "description": "目标目录",
+          "options": []
+        },
+        {
+          "name": "ext",
+          "type": "input",
+          "description": "文件扩展名（不带点）",
+          "options": []
+        },
+        {
+          "name": "oldPattern",
+          "type": "input",
+          "description": "要替换的模式",
+          "options": []
+        },
+        {
+          "name": "newPattern",
+          "type": "input",
+          "description": "替换后的内容",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "合并文件",
+      "content": "cat \"{{file1}}\" \"{{file2}}\" > \"{{outputFile}}\"",
+      "description": "将多个文件合并为一个文件",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "file1",
+          "type": "file",
+          "description": "第一个文件",
+          "options": []
+        },
+        {
+          "name": "file2",
+          "type": "file",
+          "description": "第二个文件",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "input",
+          "description": "输出文件路径",
+          "options": []
+        }
+      ]
+    }
+  ],
+  "ignored": [
+    {
+      "pattern": "^ls(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^cd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^pwd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^clear(\\s.*)?$",
+      "isRegex": true
+    }
+  ]
+}

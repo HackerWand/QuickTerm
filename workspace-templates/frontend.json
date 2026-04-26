@@ -1,0 +1,148 @@
+{
+  "version": "1.0",
+  "name": "前端开发",
+  "groups": [
+    {
+      "id": 1,
+      "name": "项目管理",
+      "workspaceId": 0
+    },
+    {
+      "id": 2,
+      "name": "依赖管理",
+      "workspaceId": 0
+    },
+    {
+      "id": 3,
+      "name": "构建与部署",
+      "workspaceId": 0
+    },
+    {
+      "id": 4,
+      "name": "代码质量",
+      "workspaceId": 0
+    },
+    {
+      "id": 5,
+      "name": "开发工具",
+      "workspaceId": 0
+    }
+  ],
+  "commands": [
+    {
+      "id": 1,
+      "name": "初始化 Vue 项目",
+      "content": "npm create vite@latest . -- --template vue",
+      "description": "在当前目录初始化 Vue 3 项目",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 2,
+      "name": "安装依赖",
+      "content": "npm install",
+      "description": "安装项目依赖",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 3,
+      "name": "开发服务器",
+      "content": "npm run dev",
+      "description": "启动开发服务器",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 4,
+      "name": "构建项目",
+      "content": "npm run build",
+      "description": "构建生产版本",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 5,
+      "name": "代码检查",
+      "content": "npx eslint .",
+      "description": "使用 ESLint 检查代码",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 6,
+      "name": "类型检查",
+      "content": "npx tsc --noEmit",
+      "description": "TypeScript 类型检查",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 7,
+      "name": "安装新依赖",
+      "content": "npm install {{packageName}}",
+      "description": "安装新的 npm 包",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "packageName",
+          "type": "input",
+          "description": "要安装的npm包名",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "更新依赖",
+      "content": "npm update",
+      "description": "更新所有依赖到最新版本",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 9,
+      "name": "预览构建",
+      "content": "npm run preview",
+      "description": "预览生产构建",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 10,
+      "name": "清理缓存",
+      "content": "npm cache clean --force",
+      "description": "清理 npm 缓存",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": []
+    }
+  ],
+  "ignored": [
+    {
+      "pattern": "^ls(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^cd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^pwd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^clear(\\s.*)?$",
+      "isRegex": true
+    }
+  ]
+}

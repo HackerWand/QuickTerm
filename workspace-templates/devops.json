@@ -1,0 +1,194 @@
+{
+  "version": "1.0",
+  "name": "DevOps/SysAdmin",
+  "groups": [
+    {
+      "id": 1,
+      "name": "系统管理",
+      "workspaceId": 0
+    },
+    {
+      "id": 2,
+      "name": "网络管理",
+      "workspaceId": 0
+    },
+    {
+      "id": 3,
+      "name": "Docker",
+      "workspaceId": 0
+    },
+    {
+      "id": 4,
+      "name": "文件管理",
+      "workspaceId": 0
+    },
+    {
+      "id": 5,
+      "name": "监控",
+      "workspaceId": 0
+    }
+  ],
+  "commands": [
+    {
+      "id": 1,
+      "name": "查看系统负载",
+      "content": "top -l 1",
+      "description": "查看系统负载和进程（macOS）",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 2,
+      "name": "查看磁盘使用",
+      "content": "df -h",
+      "description": "查看磁盘使用情况",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 3,
+      "name": "查看内存使用",
+      "content": "free -h",
+      "description": "查看内存使用情况",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 4,
+      "name": "查看网络状态",
+      "content": "netstat -an",
+      "description": "查看网络连接状态",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 5,
+      "name": "Docker 容器列表",
+      "content": "docker ps -a",
+      "description": "查看所有 Docker 容器",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 6,
+      "name": "启动 Docker 容器",
+      "content": "docker start {{containerName}}",
+      "description": "启动指定 Docker 容器",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "containerName",
+          "type": "input",
+          "description": "Docker容器名称或ID",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "构建 Docker 镜像",
+      "content": "docker build -t {{imageName}} \"{{buildContext}}\" ",
+      "description": "构建 Docker 镜像",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "imageName",
+          "type": "input",
+          "description": "Docker镜像名称和标签",
+          "options": []
+        },
+        {
+          "name": "buildContext",
+          "type": "directory",
+          "description": "构建上下文目录路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "查找大文件",
+      "content": "find \"{{directory}}\" -type f -size +{{size}} -exec ls -lh {} ;",
+      "description": "查找指定目录下大于指定大小的文件",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "directory",
+          "type": "directory",
+          "description": "要搜索的目录路径",
+          "options": []
+        },
+        {
+          "name": "size",
+          "type": "input",
+          "description": "文件大小阈值（如 100M）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "压缩文件",
+      "content": "tar -czf {{archiveName}} \"{{sourceDirectory}}\" ",
+      "description": "压缩目录为 tar.gz 文件",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "archiveName",
+          "type": "input",
+          "description": "压缩文件名称（如 archive.tar.gz）",
+          "options": []
+        },
+        {
+          "name": "sourceDirectory",
+          "type": "directory",
+          "description": "要压缩的目录路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "查看日志",
+      "content": "tail -f \"{{logFile}}\" ",
+      "description": "实时查看指定日志文件",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "logFile",
+          "type": "file",
+          "description": "日志文件路径",
+          "options": []
+        }
+      ]
+    }
+  ],
+  "ignored": [
+    {
+      "pattern": "^ls(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^cd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^pwd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^clear(\\s.*)?$",
+      "isRegex": true
+    }
+  ]
+}

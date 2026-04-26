@@ -1,0 +1,7 @@
+build/bin
+node_modules
+frontend/dist
+.agents
+.trae
+skills-lock.json
+.DS_Store

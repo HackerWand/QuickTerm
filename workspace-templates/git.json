@@ -1,0 +1,371 @@
+{
+  "version": "1.0",
+  "name": "Git 版本控制",
+  "groups": [
+    {
+      "id": 1,
+      "name": "基础命令",
+      "workspaceId": 0
+    },
+    {
+      "id": 2,
+      "name": "分支管理",
+      "workspaceId": 0
+    },
+    {
+      "id": 3,
+      "name": "远程仓库",
+      "workspaceId": 0
+    },
+    {
+      "id": 4,
+      "name": "合并与变基",
+      "workspaceId": 0
+    },
+    {
+      "id": 5,
+      "name": "标签与发布",
+      "workspaceId": 0
+    },
+    {
+      "id": 6,
+      "name": "撤销与重置",
+      "workspaceId": 0
+    }
+  ],
+  "commands": [
+    {
+      "id": 1,
+      "name": "初始化仓库",
+      "content": "git init",
+      "description": "在当前目录初始化 Git 仓库",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 2,
+      "name": "克隆仓库",
+      "content": "git clone <repository-url>",
+      "description": "克隆远程仓库到本地",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 3,
+      "name": "查看状态",
+      "content": "git status",
+      "description": "查看当前仓库的状态",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 4,
+      "name": "添加文件",
+      "content": "git add <file-name>",
+      "description": "将文件添加到暂存区",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 5,
+      "name": "添加所有文件",
+      "content": "git add .",
+      "description": "将所有文件添加到暂存区",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 6,
+      "name": "提交更改",
+      "content": "git commit -m \"<commit-message>\"",
+      "description": "提交暂存区的更改",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 7,
+      "name": "提交日志",
+      "content": "git log",
+      "description": "查看提交历史",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 8,
+      "name": "美化提交日志",
+      "content": "git log --oneline --graph --decorate",
+      "description": "以简洁图表形式查看提交历史",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 9,
+      "name": "查看分支",
+      "content": "git branch",
+      "description": "查看所有本地分支",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 10,
+      "name": "查看所有分支",
+      "content": "git branch -a",
+      "description": "查看所有本地和远程分支",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 11,
+      "name": "创建分支",
+      "content": "git branch <branch-name>",
+      "description": "创建新分支",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 12,
+      "name": "切换分支",
+      "content": "git checkout <branch-name>",
+      "description": "切换到指定分支",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 13,
+      "name": "创建并切换分支",
+      "content": "git checkout -b <branch-name>",
+      "description": "创建新分支并切换到该分支",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 14,
+      "name": "删除分支",
+      "content": "git branch -d <branch-name>",
+      "description": "删除已合并的分支",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 15,
+      "name": "强制删除分支",
+      "content": "git branch -D <branch-name>",
+      "description": "强制删除分支（未合并也会删除）",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 16,
+      "name": "查看远程仓库",
+      "content": "git remote -v",
+      "description": "查看远程仓库配置",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 17,
+      "name": "添加远程仓库",
+      "content": "git remote add origin <repository-url>",
+      "description": "添加远程仓库",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 18,
+      "name": "推送分支",
+      "content": "git push -u origin <branch-name>",
+      "description": "推送分支到远程仓库",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 19,
+      "name": "拉取更新",
+      "content": "git pull",
+      "description": "拉取远程仓库的更新",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 20,
+      "name": "获取更新",
+      "content": "git fetch",
+      "description": "获取远程仓库的更新但不合并",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 21,
+      "name": "合并分支",
+      "content": "git merge <branch-name>",
+      "description": "合并指定分支到当前分支",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 22,
+      "name": "变基",
+      "content": "git rebase <branch-name>",
+      "description": "将当前分支变基到指定分支",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 23,
+      "name": "创建标签",
+      "content": "git tag <tag-name>",
+      "description": "为当前提交创建标签",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 24,
+      "name": "创建注释标签",
+      "content": "git tag -a <tag-name> -m \"<tag-message>\"",
+      "description": "创建带注释的标签",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 25,
+      "name": "查看标签",
+      "content": "git tag",
+      "description": "查看所有标签",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 26,
+      "name": "推送标签",
+      "content": "git push origin <tag-name>",
+      "description": "推送标签到远程仓库",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 27,
+      "name": "推送所有标签",
+      "content": "git push origin --tags",
+      "description": "推送所有标签到远程仓库",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 28,
+      "name": "查看差异",
+      "content": "git diff",
+      "description": "查看工作区和暂存区的差异",
+      "groupId": 6,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 29,
+      "name": "查看暂存区差异",
+      "content": "git diff --staged",
+      "description": "查看暂存区和上一次提交的差异",
+      "groupId": 6,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 30,
+      "name": "取消暂存",
+      "content": "git reset HEAD <file-name>",
+      "description": "取消暂存指定文件",
+      "groupId": 6,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 31,
+      "name": "恢复文件",
+      "content": "git checkout -- <file-name>",
+      "description": "恢复工作区文件到上一次提交状态",
+      "groupId": 6,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 32,
+      "name": "暂存当前工作",
+      "content": "git stash",
+      "description": "暂存当前工作区的更改",
+      "groupId": 6,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 33,
+      "name": "查看暂存列表",
+      "content": "git stash list",
+      "description": "查看所有暂存记录",
+      "groupId": 6,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 34,
+      "name": "恢复暂存",
+      "content": "git stash pop",
+      "description": "恢复最新的暂存记录并删除",
+      "groupId": 6,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 35,
+      "name": "重置到上一版本",
+      "content": "git reset --soft HEAD~1",
+      "description": "软重置到上一个提交（保留更改）",
+      "groupId": 6,
+      "workspaceId": 0,
+      "templateParams": []
+    }
+  ],
+  "ignored": [
+    {
+      "pattern": "^ls(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^cd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^pwd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^clear(\\s.*)?$",
+      "isRegex": true
+    }
+  ]
+}

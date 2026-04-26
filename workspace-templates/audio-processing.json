@@ -1,0 +1,451 @@
+{
+  "version": "1.0",
+  "name": "音频处理",
+  "groups": [
+    {
+      "id": 1,
+      "name": "格式转换",
+      "workspaceId": 0
+    },
+    {
+      "id": 2,
+      "name": "音频编辑",
+      "workspaceId": 0
+    },
+    {
+      "id": 3,
+      "name": "音频分析",
+      "workspaceId": 0
+    },
+    {
+      "id": 4,
+      "name": "批量处理",
+      "workspaceId": 0
+    },
+    {
+      "id": 5,
+      "name": "音效处理",
+      "workspaceId": 0
+    }
+  ],
+  "commands": [
+    {
+      "id": 1,
+      "name": "MP3 转 WAV",
+      "content": "ffmpeg -i \"{{inputFile}}\" -acodec pcm_s16le -ar 44100 \"{{outputFile}}.wav\"",
+      "description": "将 MP3 文件转换为 WAV 格式",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "输入 MP3 文件",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "input",
+          "description": "输出文件名称（不带扩展名）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "WAV 转 MP3",
+      "content": "ffmpeg -i \"{{inputFile}}\" -b:a 128k \"{{outputFile}}.mp3\"",
+      "description": "将 WAV 文件转换为 MP3 格式（128kbps）",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "输入 WAV 文件",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "input",
+          "description": "输出文件名称（不带扩展名）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "音频裁剪",
+      "content": "ffmpeg -i \"{{inputFile}}\" -ss {{startTime}} -t {{duration}} -c copy \"{{outputFile}}\"",
+      "description": "裁剪音频文件的指定部分",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "输入音频文件",
+          "options": []
+        },
+        {
+          "name": "startTime",
+          "type": "input",
+          "description": "开始时间（格式：HH:MM:SS）",
+          "options": []
+        },
+        {
+          "name": "duration",
+          "type": "input",
+          "description": "裁剪时长（格式：HH:MM:SS）",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出文件",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "音频合并",
+      "content": "ffmpeg -f concat -i \"{{listFile}}\" -c copy \"{{outputFile}}\"",
+      "description": "合并多个音频文件（需要创建包含文件列表的文本文件）",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "listFile",
+          "type": "file",
+          "description": "包含文件列表的文本文件",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出合并文件",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "调整音量",
+      "content": "ffmpeg -i \"{{inputFile}}\" -af \"volume={{volume}}dB\" \"{{outputFile}}\"",
+      "description": "调整音频文件的音量",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "输入音频文件",
+          "options": []
+        },
+        {
+          "name": "volume",
+          "type": "number",
+          "description": "音量调整值（正数增大，负数减小，单位：dB）",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出文件",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "音频信息",
+      "content": "ffprobe -i \"{{inputFile}}\" -show_format -show_streams",
+      "description": "显示音频文件的详细信息",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "输入音频文件",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "提取音频",
+      "content": "ffmpeg -i \"{{videoFile}}\" -vn -acodec copy \"{{outputFile}}\"",
+      "description": "从视频文件中提取音频",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "videoFile",
+          "type": "file",
+          "description": "输入视频文件",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出音频文件",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "降噪处理",
+      "content": "sox \"{{inputFile}}\" \"{{outputFile}}\" noisered \"{{noiseProfile}}\" 0.21",
+      "description": "使用 SoX 对音频进行降噪处理",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "输入音频文件",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出降噪后的文件",
+          "options": []
+        },
+        {
+          "name": "noiseProfile",
+          "type": "file",
+          "description": "噪声配置文件",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "生成噪声配置文件",
+      "content": "sox \"{{inputFile}}\" -n noiseprof \"{{profileFile}}\"",
+      "description": "从音频文件中提取噪声配置文件",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "包含噪声的音频文件",
+          "options": []
+        },
+        {
+          "name": "profileFile",
+          "type": "input",
+          "description": "输出噪声配置文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "音频格式转换",
+      "content": "sox \"{{inputFile}}\" \"{{outputFile}}\"",
+      "description": "使用 SoX 转换音频格式",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "输入音频文件",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出文件（扩展名决定目标格式）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "批量转换为 MP3",
+      "content": "cd \"{{directory}}\" && mkdir -p mp3 && for file in *.{{sourceExt}}; do ffmpeg -i \"$file\" -b:a 128k \"mp3/${file%.{{sourceExt}}}.mp3\"; done",
+      "description": "批量将指定目录下的音频文件转换为 MP3 格式",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "directory",
+          "type": "directory",
+          "description": "包含音频文件的目录",
+          "options": []
+        },
+        {
+          "name": "sourceExt",
+          "type": "input",
+          "description": "源文件扩展名（不带点）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "批量调整音量",
+      "content": "cd \"{{directory}}\" && mkdir -p normalized && for file in *.{{ext}}; do ffmpeg -i \"$file\" -af \"volume={{volume}}dB\" \"normalized/$file\"; done",
+      "description": "批量调整指定目录下所有音频文件的音量",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "directory",
+          "type": "directory",
+          "description": "包含音频文件的目录",
+          "options": []
+        },
+        {
+          "name": "ext",
+          "type": "input",
+          "description": "文件扩展名（不带点）",
+          "options": []
+        },
+        {
+          "name": "volume",
+          "type": "number",
+          "description": "音量调整值（正数增大，负数减小，单位：dB）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "音频速率调整",
+      "content": "sox \"{{inputFile}}\" \"{{outputFile}}\" speed {{speed}}",
+      "description": "调整音频的播放速率",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "输入音频文件",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出文件",
+          "options": []
+        },
+        {
+          "name": "speed",
+          "type": "number",
+          "description": "速率调整值（1.0 为正常速度，大于 1 加速，小于 1 减速）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "音频淡入淡出",
+      "content": "sox \"{{inputFile}}\" \"{{outputFile}}\" fade {{fadeIn}} {{totalTime}} {{fadeOut}}",
+      "description": "为音频添加淡入淡出效果",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "输入音频文件",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出文件",
+          "options": []
+        },
+        {
+          "name": "fadeIn",
+          "type": "number",
+          "description": "淡入时间（秒）",
+          "options": []
+        },
+        {
+          "name": "totalTime",
+          "type": "number",
+          "description": "总时长（秒）",
+          "options": []
+        },
+        {
+          "name": "fadeOut",
+          "type": "number",
+          "description": "淡出时间（秒）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "音频均衡器",
+      "content": "sox \"{{inputFile}}\" \"{{outputFile}}\" equalizer {{frequency}} {{bandwidth}} {{gain}}",
+      "description": "使用均衡器调整音频频率",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "输入音频文件",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出文件",
+          "options": []
+        },
+        {
+          "name": "frequency",
+          "type": "number",
+          "description": "中心频率（Hz）",
+          "options": []
+        },
+        {
+          "name": "bandwidth",
+          "type": "number",
+          "description": "带宽（Hz）",
+          "options": []
+        },
+        {
+          "name": "gain",
+          "type": "number",
+          "description": "增益（dB）",
+          "options": []
+        }
+      ]
+    }
+  ],
+  "ignored": [
+    {
+      "pattern": "^ls(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^cd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^pwd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^clear(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^sox(\\s.*)?$",
+      "isRegex": true
+    }
+  ]
+}

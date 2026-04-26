@@ -1,0 +1,310 @@
+{
+  "version": "1.0",
+  "name": "视频处理",
+  "groups": [
+    {
+      "id": 1,
+      "name": "FFmpeg 基础",
+      "workspaceId": 0
+    },
+    {
+      "id": 2,
+      "name": "视频转换",
+      "workspaceId": 0
+    },
+    {
+      "id": 3,
+      "name": "视频处理",
+      "workspaceId": 0
+    },
+    {
+      "id": 4,
+      "name": "音频处理",
+      "workspaceId": 0
+    },
+    {
+      "id": 5,
+      "name": "批量处理",
+      "workspaceId": 0
+    }
+  ],
+  "commands": [
+    {
+      "id": 1,
+      "name": "查看视频信息",
+      "content": "ffmpeg -i \"{{inputFile}}\"",
+      "description": "显示视频文件的详细信息",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "输入视频文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "转换为 MP4",
+      "content": "ffmpeg -i \"{{inputFile}}\" -c:v libx264 -c:a aac \"{{outputFile}}\"",
+      "description": "将视频转换为 MP4 格式",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "输入视频文件路径",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出MP4文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "调整视频尺寸",
+      "content": "ffmpeg -i \"{{inputFile}}\" -vf scale={{width}}:{{height}} \"{{outputFile}}\"",
+      "description": "调整视频分辨率",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "输入视频文件路径",
+          "options": []
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "description": "输出视频宽度",
+          "options": []
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "description": "输出视频高度",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出视频文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "提取音频",
+      "content": "ffmpeg -i \"{{inputFile}}\" -vn -acodec copy \"{{outputFile}}\"",
+      "description": "从视频中提取音频",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "输入视频文件路径",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出音频文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "添加水印",
+      "content": "ffmpeg -i \"{{inputFile}}\" -i \"{{watermarkFile}}\" -filter_complex overlay={{x}}:{{y}} \"{{outputFile}}\"",
+      "description": "在视频指定位置添加水印",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "输入视频文件路径",
+          "options": []
+        },
+        {
+          "name": "watermarkFile",
+          "type": "file",
+          "description": "水印图片文件路径",
+          "options": []
+        },
+        {
+          "name": "x",
+          "type": "number",
+          "description": "水印X坐标位置",
+          "options": []
+        },
+        {
+          "name": "y",
+          "type": "number",
+          "description": "水印Y坐标位置",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出视频文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "视频裁剪",
+      "content": "ffmpeg -i \"{{inputFile}}\" -ss {{startTime}} -t {{duration}} -c copy \"{{outputFile}}\"",
+      "description": "从指定时间开始裁剪指定时长的视频",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "输入视频文件路径",
+          "options": []
+        },
+        {
+          "name": "startTime",
+          "type": "input",
+          "description": "开始时间（格式：HH:MM:SS）",
+          "options": []
+        },
+        {
+          "name": "duration",
+          "type": "input",
+          "description": "裁剪时长（格式：HH:MM:SS）",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出视频文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "批量转换为 MP4",
+      "content": "for file in *.mkv; do ffmpeg -i \"$file\" -c:v libx264 -c:a aac \"${file%.mkv}.mp4\"; done",
+      "description": "批量将当前目录的 MKV 文件转换为 MP4",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 8,
+      "name": "压缩视频",
+      "content": "ffmpeg -i \"{{inputFile}}\" -b:v {{bitrate}} \"{{outputFile}}\"",
+      "description": "设置视频比特率以减小文件大小",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputFile",
+          "type": "file",
+          "description": "输入视频文件路径",
+          "options": []
+        },
+        {
+          "name": "bitrate",
+          "type": "input",
+          "description": "视频比特率（如 1M）",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出视频文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "录制屏幕",
+      "content": "ffmpeg -f avfoundation -i {{inputDevice}} -t {{duration}} -c:v libx264 -c:a aac \"{{outputFile}}\"",
+      "description": "录制屏幕指定时长（macOS）",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "inputDevice",
+          "type": "input",
+          "description": "输入设备（如 1:0 表示屏幕和麦克风）",
+          "options": []
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "description": "录制时长（秒）",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出视频文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "合并视频",
+      "content": "ffmpeg -f concat -i \"{{listFile}}\" -c copy \"{{outputFile}}\"",
+      "description": "合并多个视频文件（需要创建包含文件列表的文本文件）",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "listFile",
+          "type": "file",
+          "description": "包含视频文件列表的文本文件路径",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "file",
+          "description": "输出视频文件路径",
+          "options": []
+        }
+      ]
+    }
+  ],
+  "ignored": [
+    {
+      "pattern": "^ls(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^cd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^pwd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^clear(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^history(\\s.*)?$",
+      "isRegex": true
+    }
+  ]
+}

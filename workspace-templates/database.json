@@ -1,0 +1,459 @@
+{
+  "version": "1.0",
+  "name": "数据库管理",
+  "groups": [
+    {
+      "id": 1,
+      "name": "MySQL",
+      "workspaceId": 0
+    },
+    {
+      "id": 2,
+      "name": "PostgreSQL",
+      "workspaceId": 0
+    },
+    {
+      "id": 3,
+      "name": "MongoDB",
+      "workspaceId": 0
+    },
+    {
+      "id": 4,
+      "name": "Redis",
+      "workspaceId": 0
+    },
+    {
+      "id": 5,
+      "name": "通用工具",
+      "workspaceId": 0
+    }
+  ],
+  "commands": [
+    {
+      "id": 1,
+      "name": "MySQL 连接",
+      "content": "mysql -u {{user}} -p -h {{host}} -P {{port}}",
+      "description": "连接到 MySQL 数据库",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "user",
+          "type": "input",
+          "description": "MySQL 用户名",
+          "options": []
+        },
+        {
+          "name": "host",
+          "type": "input",
+          "description": "MySQL 主机地址",
+          "options": []
+        },
+        {
+          "name": "port",
+          "type": "number",
+          "description": "MySQL 端口号",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "MySQL 执行 SQL 文件",
+      "content": "mysql -u {{user}} -p {{database}} < \"{{sqlFile}}\"",
+      "description": "执行 SQL 文件到 MySQL 数据库",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "user",
+          "type": "input",
+          "description": "MySQL 用户名",
+          "options": []
+        },
+        {
+          "name": "database",
+          "type": "input",
+          "description": "目标数据库名称",
+          "options": []
+        },
+        {
+          "name": "sqlFile",
+          "type": "file",
+          "description": "SQL 文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "MySQL 导出数据库",
+      "content": "mysqldump -u {{user}} -p {{database}} > \"{{outputFile}}.sql\"",
+      "description": "导出 MySQL 数据库到 SQL 文件",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "user",
+          "type": "input",
+          "description": "MySQL 用户名",
+          "options": []
+        },
+        {
+          "name": "database",
+          "type": "input",
+          "description": "要导出的数据库名称",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "input",
+          "description": "输出文件名称（不带扩展名）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "PostgreSQL 连接",
+      "content": "psql -U {{user}} -h {{host}} -p {{port}} -d {{database}}",
+      "description": "连接到 PostgreSQL 数据库",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "user",
+          "type": "input",
+          "description": "PostgreSQL 用户名",
+          "options": []
+        },
+        {
+          "name": "host",
+          "type": "input",
+          "description": "PostgreSQL 主机地址",
+          "options": []
+        },
+        {
+          "name": "port",
+          "type": "number",
+          "description": "PostgreSQL 端口号",
+          "options": []
+        },
+        {
+          "name": "database",
+          "type": "input",
+          "description": "目标数据库名称",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "PostgreSQL 执行 SQL 文件",
+      "content": "psql -U {{user}} -d {{database}} -f \"{{sqlFile}}\"",
+      "description": "执行 SQL 文件到 PostgreSQL 数据库",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "user",
+          "type": "input",
+          "description": "PostgreSQL 用户名",
+          "options": []
+        },
+        {
+          "name": "database",
+          "type": "input",
+          "description": "目标数据库名称",
+          "options": []
+        },
+        {
+          "name": "sqlFile",
+          "type": "file",
+          "description": "SQL 文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "PostgreSQL 导出数据库",
+      "content": "pg_dump -U {{user}} {{database}} > \"{{outputFile}}.sql\"",
+      "description": "导出 PostgreSQL 数据库到 SQL 文件",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "user",
+          "type": "input",
+          "description": "PostgreSQL 用户名",
+          "options": []
+        },
+        {
+          "name": "database",
+          "type": "input",
+          "description": "要导出的数据库名称",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "input",
+          "description": "输出文件名称（不带扩展名）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "MongoDB 连接",
+      "content": "mongo \"mongodb://{{host}}:{{port}}/{{database}}\"",
+      "description": "连接到 MongoDB 数据库",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "host",
+          "type": "input",
+          "description": "MongoDB 主机地址",
+          "options": []
+        },
+        {
+          "name": "port",
+          "type": "number",
+          "description": "MongoDB 端口号",
+          "options": []
+        },
+        {
+          "name": "database",
+          "type": "input",
+          "description": "目标数据库名称",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "MongoDB 导出集合",
+      "content": "mongoexport --uri=\"mongodb://{{host}}:{{port}}/{{database}}\" --collection={{collection}} --out=\"{{outputFile}}.json\"",
+      "description": "导出 MongoDB 集合到 JSON 文件",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "host",
+          "type": "input",
+          "description": "MongoDB 主机地址",
+          "options": []
+        },
+        {
+          "name": "port",
+          "type": "number",
+          "description": "MongoDB 端口号",
+          "options": []
+        },
+        {
+          "name": "database",
+          "type": "input",
+          "description": "数据库名称",
+          "options": []
+        },
+        {
+          "name": "collection",
+          "type": "input",
+          "description": "要导出的集合名称",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "input",
+          "description": "输出文件名称（不带扩展名）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Redis 连接",
+      "content": "redis-cli -h {{host}} -p {{port}}",
+      "description": "连接到 Redis 服务器",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "host",
+          "type": "input",
+          "description": "Redis 主机地址",
+          "options": []
+        },
+        {
+          "name": "port",
+          "type": "number",
+          "description": "Redis 端口号",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Redis 设置键值",
+      "content": "redis-cli -h {{host}} -p {{port}} set {{key}} {{value}}",
+      "description": "在 Redis 中设置键值对",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "host",
+          "type": "input",
+          "description": "Redis 主机地址",
+          "options": []
+        },
+        {
+          "name": "port",
+          "type": "number",
+          "description": "Redis 端口号",
+          "options": []
+        },
+        {
+          "name": "key",
+          "type": "input",
+          "description": "键名",
+          "options": []
+        },
+        {
+          "name": "value",
+          "type": "input",
+          "description": "键值",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Redis 查看键",
+      "content": "redis-cli -h {{host}} -p {{port}} get {{key}}",
+      "description": "在 Redis 中获取键的值",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "host",
+          "type": "input",
+          "description": "Redis 主机地址",
+          "options": []
+        },
+        {
+          "name": "port",
+          "type": "number",
+          "description": "Redis 端口号",
+          "options": []
+        },
+        {
+          "name": "key",
+          "type": "input",
+          "description": "要查询的键名",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "SQLite 连接",
+      "content": "sqlite3 \"{{databaseFile}}\"",
+      "description": "连接到 SQLite 数据库文件",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "databaseFile",
+          "type": "file",
+          "description": "SQLite 数据库文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "SQLite 执行 SQL 文件",
+      "content": "sqlite3 \"{{databaseFile}}\" < \"{{sqlFile}}\"",
+      "description": "执行 SQL 文件到 SQLite 数据库",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "databaseFile",
+          "type": "file",
+          "description": "SQLite 数据库文件路径",
+          "options": []
+        },
+        {
+          "name": "sqlFile",
+          "type": "file",
+          "description": "SQL 文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "SQLite 导出数据库",
+      "content": "sqlite3 \"{{databaseFile}}\" .dump > \"{{outputFile}}.sql\"",
+      "description": "导出 SQLite 数据库到 SQL 文件",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "databaseFile",
+          "type": "file",
+          "description": "SQLite 数据库文件路径",
+          "options": []
+        },
+        {
+          "name": "outputFile",
+          "type": "input",
+          "description": "输出文件名称（不带扩展名）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "数据库连接测试",
+      "content": "nc -z {{host}} {{port}}",
+      "description": "测试数据库服务器端口是否开放",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "host",
+          "type": "input",
+          "description": "数据库服务器主机地址",
+          "options": []
+        },
+        {
+          "name": "port",
+          "type": "number",
+          "description": "数据库服务器端口号",
+          "options": []
+        }
+      ]
+    }
+  ],
+  "ignored": [
+    {
+      "pattern": "^ls(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^cd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^pwd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^clear(\\s.*)?$",
+      "isRegex": true
+    }
+  ]
+}

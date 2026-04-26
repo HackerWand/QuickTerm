@@ -1,0 +1,336 @@
+{
+  "version": "1.0",
+  "name": "容器与云服务",
+  "groups": [
+    {
+      "id": 1,
+      "name": "Docker",
+      "workspaceId": 0
+    },
+    {
+      "id": 2,
+      "name": "Docker Compose",
+      "workspaceId": 0
+    },
+    {
+      "id": 3,
+      "name": "Kubernetes",
+      "workspaceId": 0
+    },
+    {
+      "id": 4,
+      "name": "AWS",
+      "workspaceId": 0
+    },
+    {
+      "id": 5,
+      "name": "Google Cloud",
+      "workspaceId": 0
+    }
+  ],
+  "commands": [
+    {
+      "id": 1,
+      "name": "Docker 构建镜像",
+      "content": "docker build -t {{imageName}} \"{{buildContext}}\"",
+      "description": "构建 Docker 镜像",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "imageName",
+          "type": "input",
+          "description": "镜像名称（格式：name:tag）",
+          "options": []
+        },
+        {
+          "name": "buildContext",
+          "type": "directory",
+          "description": "构建上下文目录",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Docker 运行容器",
+      "content": "docker run -d --name {{containerName}} -p {{port}}:{{port}} {{imageName}}",
+      "description": "运行 Docker 容器",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "containerName",
+          "type": "input",
+          "description": "容器名称",
+          "options": []
+        },
+        {
+          "name": "port",
+          "type": "number",
+          "description": "映射端口（主机:容器）",
+          "options": []
+        },
+        {
+          "name": "imageName",
+          "type": "input",
+          "description": "镜像名称",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Docker 查看容器",
+      "content": "docker ps -a",
+      "description": "查看所有 Docker 容器",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 4,
+      "name": "Docker 启动容器",
+      "content": "docker start {{containerName}}",
+      "description": "启动指定 Docker 容器",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "containerName",
+          "type": "input",
+          "description": "容器名称",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Docker 停止容器",
+      "content": "docker stop {{containerName}}",
+      "description": "停止指定 Docker 容器",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "containerName",
+          "type": "input",
+          "description": "容器名称",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Docker Compose 启动",
+      "content": "docker-compose -f \"{{composeFile}}\" up -d",
+      "description": "使用 Docker Compose 启动服务",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "composeFile",
+          "type": "file",
+          "description": "docker-compose.yml 文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Docker Compose 停止",
+      "content": "docker-compose -f \"{{composeFile}}\" down",
+      "description": "使用 Docker Compose 停止服务",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "composeFile",
+          "type": "file",
+          "description": "docker-compose.yml 文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Kubernetes 查看 Pods",
+      "content": "kubectl get pods",
+      "description": "查看 Kubernetes 集群中的 Pods",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 9,
+      "name": "Kubernetes 查看服务",
+      "content": "kubectl get services",
+      "description": "查看 Kubernetes 集群中的服务",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": []
+    },
+    {
+      "id": 10,
+      "name": "Kubernetes 部署应用",
+      "content": "kubectl apply -f \"{{deploymentFile}}\"",
+      "description": "使用 YAML 文件部署应用到 Kubernetes",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "deploymentFile",
+          "type": "file",
+          "description": "Kubernetes 部署 YAML 文件路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Kubernetes 查看日志",
+      "content": "kubectl logs {{podName}}",
+      "description": "查看指定 Pod 的日志",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "podName",
+          "type": "input",
+          "description": "Pod 名称",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "AWS S3 上传文件",
+      "content": "aws s3 cp \"{{localFile}}\" s3://{{bucketName}}/{{key}}",
+      "description": "上传文件到 AWS S3 存储桶",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "localFile",
+          "type": "file",
+          "description": "本地文件路径",
+          "options": []
+        },
+        {
+          "name": "bucketName",
+          "type": "input",
+          "description": "S3 存储桶名称",
+          "options": []
+        },
+        {
+          "name": "key",
+          "type": "input",
+          "description": "S3 对象键（文件路径）",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "AWS S3 下载文件",
+      "content": "aws s3 cp s3://{{bucketName}}/{{key}} \"{{localFile}}\"",
+      "description": "从 AWS S3 存储桶下载文件",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "bucketName",
+          "type": "input",
+          "description": "S3 存储桶名称",
+          "options": []
+        },
+        {
+          "name": "key",
+          "type": "input",
+          "description": "S3 对象键（文件路径）",
+          "options": []
+        },
+        {
+          "name": "localFile",
+          "type": "file",
+          "description": "本地保存路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "Google Cloud 存储上传",
+      "content": "gsutil cp \"{{localFile}}\" gs://{{bucketName}}/{{object}}",
+      "description": "上传文件到 Google Cloud Storage",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "localFile",
+          "type": "file",
+          "description": "本地文件路径",
+          "options": []
+        },
+        {
+          "name": "bucketName",
+          "type": "input",
+          "description": "GCS 存储桶名称",
+          "options": []
+        },
+        {
+          "name": "object",
+          "type": "input",
+          "description": "GCS 对象路径",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "Google Cloud 存储下载",
+      "content": "gsutil cp gs://{{bucketName}}/{{object}} \"{{localFile}}\"",
+      "description": "从 Google Cloud Storage 下载文件",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "bucketName",
+          "type": "input",
+          "description": "GCS 存储桶名称",
+          "options": []
+        },
+        {
+          "name": "object",
+          "type": "input",
+          "description": "GCS 对象路径",
+          "options": []
+        },
+        {
+          "name": "localFile",
+          "type": "file",
+          "description": "本地保存路径",
+          "options": []
+        }
+      ]
+    }
+  ],
+  "ignored": [
+    {
+      "pattern": "^ls(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^cd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^pwd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^clear(\\s.*)?$",
+      "isRegex": true
+    }
+  ]
+}

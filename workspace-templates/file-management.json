@@ -1,0 +1,345 @@
+{
+  "version": "1.0",
+  "name": "文件管理与备份",
+  "groups": [
+    {
+      "id": 1,
+      "name": "文件同步",
+      "workspaceId": 0
+    },
+    {
+      "id": 2,
+      "name": "文件归档",
+      "workspaceId": 0
+    },
+    {
+      "id": 3,
+      "name": "文件查找",
+      "workspaceId": 0
+    },
+    {
+      "id": 4,
+      "name": "文件权限",
+      "workspaceId": 0
+    },
+    {
+      "id": 5,
+      "name": "文件操作",
+      "workspaceId": 0
+    }
+  ],
+  "commands": [
+    {
+      "id": 1,
+      "name": "Rsync 同步",
+      "content": "rsync -avz \"{{source}}\" \"{{destination}}\"",
+      "description": "使用 Rsync 同步文件和目录",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "source",
+          "type": "directory",
+          "description": "源目录",
+          "options": []
+        },
+        {
+          "name": "destination",
+          "type": "directory",
+          "description": "目标目录",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Rsync 增量备份",
+      "content": "rsync -avz --delete \"{{source}}\" \"{{backupDir}}/$(date +%Y%m%d)\"",
+      "description": "使用 Rsync 进行增量备份",
+      "groupId": 1,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "source",
+          "type": "directory",
+          "description": "要备份的源目录",
+          "options": []
+        },
+        {
+          "name": "backupDir",
+          "type": "directory",
+          "description": "备份存储目录",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "创建压缩包",
+      "content": "tar -czf \"{{outputFile}}.tar.gz\" \"{{sourceDirectory}}\"",
+      "description": "创建 tar.gz 压缩包",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "outputFile",
+          "type": "input",
+          "options": []
+        },
+        {
+          "name": "sourceDirectory",
+          "type": "directory",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "解压压缩包",
+      "content": "tar -xzf \"{{archiveFile}}\" -C \"{{destinationDirectory}}\"",
+      "description": "解压 tar.gz 压缩包",
+      "groupId": 2,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "archiveFile",
+          "type": "file",
+          "options": []
+        },
+        {
+          "name": "destinationDirectory",
+          "type": "directory",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "查找文件",
+      "content": "find \"{{directory}}\" -name \"{{pattern}}\"",
+      "description": "在指定目录中查找匹配的文件",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "directory",
+          "type": "directory",
+          "options": []
+        },
+        {
+          "name": "pattern",
+          "type": "input",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "查找最近修改的文件",
+      "content": "find \"{{directory}}\" -type f -mtime -{{days}} | sort -r",
+      "description": "查找指定天数内修改的文件",
+      "groupId": 3,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "directory",
+          "type": "directory",
+          "options": []
+        },
+        {
+          "name": "days",
+          "type": "number",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "设置文件权限",
+      "content": "chmod {{permissions}} \"{{file}}\"",
+      "description": "设置文件的权限",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "permissions",
+          "type": "input",
+          "options": []
+        },
+        {
+          "name": "file",
+          "type": "file",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "设置目录权限",
+      "content": "chmod -R {{permissions}} \"{{directory}}\"",
+      "description": "递归设置目录的权限",
+      "groupId": 4,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "permissions",
+          "type": "input",
+          "options": []
+        },
+        {
+          "name": "directory",
+          "type": "directory",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "复制文件",
+      "content": "cp -r \"{{source}}\" \"{{destination}}\"",
+      "description": "复制文件或目录",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "source",
+          "type": "file",
+          "options": []
+        },
+        {
+          "name": "destination",
+          "type": "file",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "移动文件",
+      "content": "mv \"{{source}}\" \"{{destination}}\"",
+      "description": "移动文件或目录",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "source",
+          "type": "file",
+          "options": []
+        },
+        {
+          "name": "destination",
+          "type": "file",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "name": "删除文件",
+      "content": "rm -f \"{{file}}\"",
+      "description": "强制删除文件",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "file",
+          "type": "file",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "删除目录",
+      "content": "rm -rf \"{{directory}}\"",
+      "description": "递归删除目录",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "directory",
+          "type": "directory",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "name": "创建目录",
+      "content": "mkdir -p \"{{directory}}\"",
+      "description": "创建目录（包括父目录）",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "directory",
+          "type": "input",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "name": "批量重命名",
+      "content": "cd \"{{directory}}\" && for file in *.{{oldExt}}; do mv \"$file\" \"${file%.{{oldExt}}}.{{newExt}}\"; done",
+      "description": "批量重命名文件扩展名",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "directory",
+          "type": "directory",
+          "options": []
+        },
+        {
+          "name": "oldExt",
+          "type": "input",
+          "options": []
+        },
+        {
+          "name": "newExt",
+          "type": "input",
+          "options": []
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "name": "文件比较",
+      "content": "diff \"{{file1}}\" \"{{file2}}\"",
+      "description": "比较两个文件的差异",
+      "groupId": 5,
+      "workspaceId": 0,
+      "templateParams": [
+        {
+          "name": "file1",
+          "type": "file",
+          "options": []
+        },
+        {
+          "name": "file2",
+          "type": "file",
+          "options": []
+        }
+      ]
+    }
+  ],
+  "ignored": [
+    {
+      "pattern": "^ls(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^cd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^pwd(\\s.*)?$",
+      "isRegex": true
+    },
+    {
+      "pattern": "^clear(\\s.*)?$",
+      "isRegex": true
+    }
+  ]
+}
