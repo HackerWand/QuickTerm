@@ -171,6 +171,7 @@ export const useTerminalStore = defineStore('terminal', () => {
     }
     nextTick(() => {
       resizeTerminal(terminalId)
+      focusTerminal(terminalId)
     })
   }
 

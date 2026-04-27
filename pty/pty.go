@@ -55,7 +55,7 @@ func (p *PTY) Close() error {
 		p.ptmx.Close()
 	}
 	if p.cmd != nil && p.cmd.Process != nil {
-		p.cmd.Process.Signal(syscall.SIGTERM)
+		p.cmd.Process.Signal(syscall.SIGHUP)
 		p.cmd.Wait()
 	}
 	return nil
