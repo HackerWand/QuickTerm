@@ -19,7 +19,7 @@ func New(shell string, cwd string, env []string) (*PTY, error) {
 		shell = getDefaultShell()
 	}
 
-	cmd := exec.Command(shell)
+	cmd := exec.Command(shell, "-l")
 	cmd.Dir = cwd
 	cmd.Env = append(os.Environ(), env...)
 	cmd.Env = append(cmd.Env, "TERM=xterm-256color")
