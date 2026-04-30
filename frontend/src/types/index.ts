@@ -20,6 +20,15 @@ export interface TemplateParamData {
   description: string
   options: TemplateOptionData[]
 }
+
+export type ParamValueType = 'number' | 'select' | 'input' | 'file' | 'directory'
+
+export interface ParsedTemplateParam {
+  name: string
+  type: ParamValueType
+  description: string
+  options: TemplateOptionData[]
+}
 export type WorkspaceExport = models.WorkspaceExport
 export type DatabaseBackup = models.DatabaseBackup
 

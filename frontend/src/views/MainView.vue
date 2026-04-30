@@ -201,7 +201,7 @@ onUnmounted(() => {
 
 <template>
   <NLayout has-sider style="height: 100%;">
-    <NLayoutSider show-trigger="arrow-circle" bordered collapse-mode="transform" :width="280" :collapsed-width="64">
+    <NLayoutSider show-trigger="bar" bordered collapse-mode="transform" :width="280" :collapsed-width="10">
       <div class="sider-content">
         <div class="back-button-container">
           <NFlex justify="space-between" align="center">

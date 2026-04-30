@@ -12,18 +12,17 @@ import {
   NListItem,
   useMessage
 } from 'naive-ui'
-import type { TemplateParam, TemplateOption } from '../../types'
-import type { ParamValueType } from '../../composables/useTemplateParams'
+import type { ParsedTemplateParam, ParamValueType, TemplateOptionData } from '../../types'
 import SelectOptionManager from './SelectOptionManager.vue'
 
 interface Props {
   show: boolean
-  params: TemplateParam[]
+  params: ParsedTemplateParam[]
 }
 
 interface Emits {
   (e: 'update:show', value: boolean): void
-  (e: 'update:params', params: TemplateParam[]): void
+  (e: 'update:params', params: ParsedTemplateParam[]): void
 }
 
 const props = defineProps<Props>()
@@ -31,7 +30,7 @@ const emit = defineEmits<Emits>()
 const message = useMessage()
 
 const localShow = ref(false)
-const localParams = ref<TemplateParam[]>([])
+const localParams = ref<ParsedTemplateParam[]>([])
 const showOptionManager = ref(false)
 const managingOptionIndex = ref(-1)
 
@@ -51,7 +50,7 @@ watch(() => props.show, (newVal) => {
       type: p.type,
       description: p.description ?? '',
       options: p.options.map(o => ({ label: o.label, value: o.value }))
-    })) as TemplateParam[]
+    }))
   }
 })
 
@@ -73,15 +72,16 @@ const updateLocalParamDescription = (index: number, description: string) => {
 
 const updateLocalParamType = (index: number, type: ParamValueType) => {
   if (index >= 0 && index < localParams.value.length) {
-    const updated = { ...localParams.value[index], type }
-    if (type === 'select' && (!updated.options || updated.options.length === 0)) {
-      updated.options = []
+    const updated: ParsedTemplateParam = {
+      ...localParams.value[index],
+      type,
+      options: type === 'select' ? localParams.value[index].options : []
     }
     localParams.value[index] = updated
   }
 }
 
-const updateLocalParamOptions = (index: number, options: TemplateOption[]) => {
+const updateLocalParamOptions = (index: number, options: TemplateOptionData[]) => {
   if (index >= 0 && index < localParams.value.length) {
     localParams.value[index] = { ...localParams.value[index], options }
   }
@@ -92,7 +92,7 @@ const handleManageOptions = (index: number) => {
   showOptionManager.value = true
 }
 
-const handleOptionsUpdate = (newOptions: TemplateOption[]) => {
+const handleOptionsUpdate = (newOptions: TemplateOptionData[]) => {
   if (managingOptionIndex.value >= 0) {
     updateLocalParamOptions(managingOptionIndex.value, newOptions)
   }
@@ -115,7 +115,7 @@ const handleSave = () => {
     type: p.type,
     description: p.description,
     options: p.options.map(o => ({ label: o.label, value: o.value }))
-  })) as TemplateParam[])
+  })))
   localShow.value = false
 }
 </script>

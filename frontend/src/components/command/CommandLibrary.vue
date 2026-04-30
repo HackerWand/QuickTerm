@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from 'vue'
 import { NButton, NIcon, NTooltip, NInput, useMessage, useLoadingBar } from 'naive-ui'
 import { Add, LayersOutline, Search } from '@vicons/ionicons5'
 import { useCommandStore } from '../../stores/command'
+import { hasTemplateParams } from '../../composables/useTemplateParams'
 import { useWorkspaceStore } from '../../stores/workspace'
 import * as App from '../../../wailsjs/go/main/App'
 import { models } from '../../../wailsjs/go/models'
@@ -178,6 +179,11 @@ const handleDeleteGroup = async (group: CommandGroupType) => {
 }
 
 const handleExecuteCommand = (command: Command) => {
+  if (hasTemplateParams(command.content)) {
+    message.info('命令包含模版参数，已自动打开快捷编辑')
+    handleQuickEditCommand(command)
+    return
+  }
   emit('execute-command', command)
 }
 

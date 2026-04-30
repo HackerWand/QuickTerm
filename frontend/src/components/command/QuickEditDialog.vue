@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, computed, nextTick } from 'vue'
+import { ref, watch, computed } from 'vue'
 import {
   NModal,
   NForm,
@@ -20,8 +20,8 @@ import { ClipboardOutline, FolderOpenOutline, DocumentTextOutline } from '@vicon
 import { OpenFileSelectorDialog, OpenDirectorySelectorDialog } from '../../../wailsjs/go/main/App'
 import { useRecentPathStore } from '../../stores/recentPath'
 import { useWorkspaceStore } from '../../stores/workspace'
-import { useTemplateParams } from '../../composables/useTemplateParams'
-import type { Command, TemplateParam, CommandData } from '../../types'
+import { useTemplateParams, parsedToTemplateParam } from '../../composables/useTemplateParams'
+import type { Command, TemplateParam, ParsedTemplateParam, CommandData } from '../../types'
 import TemplateParamManager from './TemplateParamManager.vue'
 
 interface Props {
@@ -59,21 +59,20 @@ const {
   hasPlaceholders,
   params,
   paramValues,
-  syncParamsFromContent,
   resolveContent
 } = useTemplateParams(content, savedParams)
 
-const getSelectOptions = (param: TemplateParam) => {
+const getSelectOptions = (param: ParsedTemplateParam) => {
   return param.options.map(opt => ({ label: opt.label, value: opt.value }))
 }
 
-const handleParamsUpdate = (updatedParams: TemplateParam[]) => {
+const handleParamsUpdate = (updatedParams: ParsedTemplateParam[]) => {
   params.value = updatedParams.map(p => ({
     name: p.name,
     type: p.type,
     description: p.description,
     options: p.options.map(o => ({ label: o.label, value: o.value }))
-  })) as TemplateParam[]
+  }))
   const newValues: Record<string, string | number | null> = {}
   for (const param of updatedParams) {
     const currentVal = paramValues.value[param.name]
@@ -114,9 +113,6 @@ watch(() => props.show, (newVal) => {
       content.value = ''
       savedParams.value = []
     }
-    nextTick(() => {
-      syncParamsFromContent()
-    })
     loadPaths()
   }
 })
@@ -183,7 +179,7 @@ const buildUpdatedCommand = (): CommandData => {
     description: props.command.description,
     groupId: props.command.groupId,
     workspaceId: props.command.workspaceId,
-    templateParams: params.value.map(p => ({ ...p }))
+    templateParams: params.value.map(parsedToTemplateParam)
   }
 }
 
@@ -198,7 +194,6 @@ const handleSave = async () => {
   emit('save', updatedCommand)
 
   isLoading.value = false
-  emit('update:show', false)
 }
 
 const handleExecute = async () => {
@@ -206,14 +201,8 @@ const handleExecute = async () => {
     return
   }
 
-  if (props.command) {
-    const updatedCommand = buildUpdatedCommand()
-    emit('save', updatedCommand)
-  }
-
   const resolvedContent = resolveContent(true)
   emit('execute', resolvedContent)
-  emit('update:show', false)
 }
 
 const truncatePath = (path: string, maxLength: number = 35) => {

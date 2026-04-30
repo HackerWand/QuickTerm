@@ -7,7 +7,6 @@ import {
   NInput,
   NList,
   NListItem,
-  NSwitch,
   NSpace,
   NFlex,
   NButton,
@@ -174,7 +173,7 @@ onUnmounted(() => {
       </NFormItem>
       <NFormItem label="忽略命令">
         <div class="ignore-commands-section">
-          <NList bordered v-if="editingWorkspace.ignoredCommands?.length">
+          <NList bordered v-if="editingWorkspace.ignoredCommands?.length" style="max-height: 20vh; overflow: auto;">
             <NListItem v-for="(rule, index) in editingWorkspace.ignoredCommands" :key="index">
               <NThing>
                 <template #header>

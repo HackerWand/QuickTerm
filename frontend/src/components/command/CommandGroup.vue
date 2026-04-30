@@ -235,6 +235,13 @@ const handleCopy = async (command: Command) => {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
+  position: sticky;
+  top: 0;
+  background-color: var(--n-color);
+  z-index: 1;
+  &:hover .group-actions {
+    opacity: 1;
+  }
 }
 
 .group-title {
@@ -243,6 +250,8 @@ const handleCopy = async (command: Command) => {
   gap: 4px;
   cursor: pointer;
   user-select: none;
+  flex: 1;
+  width: 0;
 }
 
 .collapse-icon {
@@ -254,7 +263,9 @@ const handleCopy = async (command: Command) => {
 }
 
 .group-actions {
+  opacity: 0;
   display: flex;
   gap: 4px;
+  transition: opacity 0.2s ease;
 }
 </style>

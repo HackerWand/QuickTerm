@@ -1,9 +1,16 @@
 import { ref, computed, watch, type Ref } from 'vue'
-import type { TemplateParam, TemplateOption } from '../types'
+import { models } from '../../wailsjs/go/models'
+import type { TemplateParam, ParsedTemplateParam, ParamValueType, TemplateOptionData } from '../types'
 
-const PLACEHOLDER_PATTERN = /\{\{([a-zA-Z0-9_\-]*)\}\}/g
+const PLACEHOLDER_SOURCE = /\{\{([a-zA-Z0-9_\-]*)\}\}/g
 
-export type ParamValueType = 'number' | 'select' | 'input' | 'file' | 'directory'
+function createPlaceholderRegex(): RegExp {
+  return new RegExp(PLACEHOLDER_SOURCE.source, PLACEHOLDER_SOURCE.flags)
+}
+
+export function hasTemplateParams(content: string): boolean {
+  return createPlaceholderRegex().test(content)
+}
 
 function isInsideQuotes(text: string, offset: number): boolean {
   let quoteCount = 0
@@ -15,20 +22,39 @@ function isInsideQuotes(text: string, offset: number): boolean {
   return quoteCount % 2 === 1
 }
 
+function templateParamToParsed(tp: TemplateParam): ParsedTemplateParam {
+  return {
+    name: tp.name,
+    type: tp.type as ParamValueType,
+    description: tp.description,
+    options: tp.options.map(o => ({ label: o.label, value: o.value }))
+  }
+}
+
+export function parsedToTemplateParam(parsed: ParsedTemplateParam): TemplateParam {
+  return models.TemplateParam.createFrom({
+    name: parsed.name,
+    type: parsed.type,
+    description: parsed.description,
+    options: parsed.options.map(o => ({ label: o.label, value: o.value }))
+  })
+}
+
 export function useTemplateParams(content: Ref<string>, savedParams: Ref<TemplateParam[]>) {
   const placeholderCount = computed(() => {
-    const matches = content.value.match(PLACEHOLDER_PATTERN)
+    const matches = content.value.match(createPlaceholderRegex())
     return matches ? matches.length : 0
   })
 
   const hasPlaceholders = computed(() => placeholderCount.value > 0)
 
-  const params = ref<TemplateParam[]>([])
+  const params = ref<ParsedTemplateParam[]>([])
 
   const paramValues = ref<Record<string, string | number | null>>({})
 
   const syncParamsFromContent = () => {
-    const allMatches = [...content.value.matchAll(PLACEHOLDER_PATTERN)]
+    const regex = createPlaceholderRegex()
+    const allMatches = [...content.value.matchAll(regex)]
     const seenNames = new Set<string>()
     const uniqueNames: string[] = []
 
@@ -40,17 +66,17 @@ export function useTemplateParams(content: Ref<string>, savedParams: Ref<Templat
       }
     }
 
-    const existingParamsByName = new Map<string, TemplateParam>()
+    const existingParamsByName = new Map<string, ParsedTemplateParam>()
     for (const p of params.value) {
-      existingParamsByName.set(p.name, { ...p } as unknown as TemplateParam)
+      existingParamsByName.set(p.name, { ...p, options: [...p.options] })
     }
 
-    const savedParamsByName = new Map<string, TemplateParam>()
+    const savedParamsByName = new Map<string, ParsedTemplateParam>()
     for (const p of savedParams.value) {
-      savedParamsByName.set(p.name, { ...p } as unknown as TemplateParam)
+      savedParamsByName.set(p.name, templateParamToParsed(p))
     }
 
-    const newParams: TemplateParam[] = []
+    const newParams: ParsedTemplateParam[] = []
     for (const name of uniqueNames) {
       if (existingParamsByName.has(name)) {
         newParams.push(existingParamsByName.get(name)!)
@@ -62,7 +88,7 @@ export function useTemplateParams(content: Ref<string>, savedParams: Ref<Templat
           type: 'input' as ParamValueType,
           description: '',
           options: []
-        } as unknown as TemplateParam)
+        })
       }
     }
 
@@ -88,12 +114,16 @@ export function useTemplateParams(content: Ref<string>, savedParams: Ref<Templat
   const updateParamType = (index: number, type: ParamValueType) => {
     if (index >= 0 && index < params.value.length) {
       const paramName = params.value[index].name
-      params.value[index] = { ...params.value[index], type } as unknown as TemplateParam
+      const updated: ParsedTemplateParam = {
+        ...params.value[index],
+        type,
+        options: type === 'select' ? params.value[index].options : []
+      }
+      params.value[index] = updated
       if (type === 'select') {
-        if (!params.value[index].options || params.value[index].options.length === 0) {
-          params.value[index].options = []
+        if (updated.options.length === 0) {
+          paramValues.value[paramName] = null
         }
-        paramValues.value[paramName] = null
       } else if (type === 'number') {
         paramValues.value[paramName] = 0
       } else {
@@ -105,7 +135,7 @@ export function useTemplateParams(content: Ref<string>, savedParams: Ref<Templat
   const updateParamName = (index: number, name: string) => {
     if (index >= 0 && index < params.value.length) {
       const oldName = params.value[index].name
-      params.value[index] = { ...params.value[index], name } as unknown as TemplateParam
+      params.value[index] = { ...params.value[index], name }
       if (oldName !== name && oldName in paramValues.value) {
         paramValues.value[name] = paramValues.value[oldName]
         delete paramValues.value[oldName]
@@ -115,14 +145,14 @@ export function useTemplateParams(content: Ref<string>, savedParams: Ref<Templat
 
   const updateParamDescription = (index: number, description: string) => {
     if (index >= 0 && index < params.value.length) {
-      params.value[index] = { ...params.value[index], description } as unknown as TemplateParam
+      params.value[index] = { ...params.value[index], description }
     }
   }
 
-  const updateParamOptions = (index: number, options: TemplateOption[]) => {
+  const updateParamOptions = (index: number, options: TemplateOptionData[]) => {
     if (index >= 0 && index < params.value.length) {
       const paramName = params.value[index].name
-      params.value[index] = { ...params.value[index], options } as unknown as TemplateParam
+      params.value[index] = { ...params.value[index], options }
       if (params.value[index].type === 'select') {
         const currentVal = paramValues.value[paramName]
         if (!options.some(opt => opt.value === String(currentVal))) {
@@ -134,7 +164,7 @@ export function useTemplateParams(content: Ref<string>, savedParams: Ref<Templat
 
   const resolveContent = (autoQuote: boolean = false): string => {
     let result = content.value
-    result = result.replace(PLACEHOLDER_PATTERN, (match: string, name: string, offset: number) => {
+    result = result.replace(createPlaceholderRegex(), (_match: string, name: string, offset: number) => {
       const value = paramValues.value[name]
       const resolvedValue = value !== undefined && value !== null ? String(value) : ''
 
@@ -147,13 +177,13 @@ export function useTemplateParams(content: Ref<string>, savedParams: Ref<Templat
     return result
   }
 
-  watch(content, () => {
+  watch([content, savedParams], ([, newSavedParams], [, oldSavedParams]) => {
+    if (newSavedParams !== oldSavedParams) {
+      params.value = []
+      paramValues.value = {}
+    }
     syncParamsFromContent()
   })
-
-  watch(savedParams, () => {
-    syncParamsFromContent()
-  }, { deep: true })
 
   return {
     placeholderCount,

@@ -13,16 +13,16 @@ import {
   NInputGroup
 } from 'naive-ui'
 import { Add, TrashOutline } from '@vicons/ionicons5'
-import type { TemplateOption } from '../../types'
+import type { TemplateOptionData } from '../../types'
 
 interface Props {
   show: boolean
-  options: TemplateOption[]
+  options: TemplateOptionData[]
 }
 
 interface Emits {
   (e: 'update:show', value: boolean): void
-  (e: 'update:options', options: TemplateOption[]): void
+  (e: 'update:options', options: TemplateOptionData[]): void
 }
 
 const props = defineProps<Props>()
@@ -30,7 +30,7 @@ const emit = defineEmits<Emits>()
 const message = useMessage()
 
 const localShow = ref(false)
-const localOptions = ref<TemplateOption[]>([])
+const localOptions = ref<TemplateOptionData[]>([])
 const newLabel = ref('')
 const newValue = ref('')
 
