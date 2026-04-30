@@ -74,21 +74,20 @@ const handleParamsUpdate = (updatedParams: TemplateParam[]) => {
     description: p.description,
     options: p.options.map(o => ({ label: o.label, value: o.value }))
   })) as TemplateParam[]
-  const newValues: Record<number, string | number | null> = {}
-  for (let i = 0; i < updatedParams.length; i++) {
-    const param = updatedParams[i]
-    const currentVal = paramValues.value[i]
+  const newValues: Record<string, string | number | null> = {}
+  for (const param of updatedParams) {
+    const currentVal = paramValues.value[param.name]
     if (param.type === 'number') {
-      newValues[i] = typeof currentVal === 'number' ? currentVal : 0
+      newValues[param.name] = typeof currentVal === 'number' ? currentVal : 0
     } else if (param.type === 'select') {
       const optionValues = param.options.map(opt => opt.value)
       if (typeof currentVal === 'string' && optionValues.includes(currentVal)) {
-        newValues[i] = currentVal
+        newValues[param.name] = currentVal
       } else {
-        newValues[i] = optionValues.length > 0 ? optionValues[0] : ''
+        newValues[param.name] = optionValues.length > 0 ? optionValues[0] : ''
       }
     } else {
-      newValues[i] = typeof currentVal === 'string' ? currentVal : ''
+      newValues[param.name] = typeof currentVal === 'string' ? currentVal : ''
     }
   }
   paramValues.value = newValues
@@ -138,7 +137,8 @@ const handleCopyPath = async (path: string) => {
 const handlePasteToParam = async (index: number) => {
   try {
     const text = await navigator.clipboard.readText()
-    paramValues.value[index] = text
+    const paramName = params.value[index].name
+    paramValues.value[paramName] = text
     message.success('已从剪贴板粘贴')
   } catch (error) {
     console.error('Failed to paste from clipboard:', error)
@@ -150,7 +150,8 @@ const handleSelectFile = async (index: number) => {
   try {
     const path = await OpenFileSelectorDialog()
     if (path) {
-      paramValues.value[index] = path
+      const paramName = params.value[index].name
+      paramValues.value[paramName] = path
     }
   } catch (error) {
     console.error('Failed to select file:', error)
@@ -162,7 +163,8 @@ const handleSelectDirectory = async (index: number) => {
   try {
     const path = await OpenDirectorySelectorDialog()
     if (path) {
-      paramValues.value[index] = path
+      const paramName = params.value[index].name
+      paramValues.value[paramName] = path
     }
   } catch (error) {
     console.error('Failed to select directory:', error)
@@ -209,7 +211,7 @@ const handleExecute = async () => {
     emit('save', updatedCommand)
   }
 
-  const resolvedContent = resolveContent()
+  const resolvedContent = resolveContent(true)
   emit('execute', resolvedContent)
   emit('update:show', false)
 }
@@ -272,11 +274,11 @@ const truncatePath = (path: string, maxLength: number = 35) => {
               </NButton>
             </div>
             <NForm label-placement="left">
-              <NFormItem v-for="(param, index) in params" :key="index" :label="param.name">
+              <NFormItem v-for="(param, index) in params" :key="param.name" :label="param.name">
                 <NFlex style="flex: 1;" vertical>
                   <NInputNumber
                     v-if="param.type === 'number'"
-                    v-model:value="paramValues[index] as number"
+                    v-model:value="paramValues[param.name] as number"
                     placeholder="请输入数值"
                     clearable
                     :update-value-on-input="true"
@@ -284,14 +286,14 @@ const truncatePath = (path: string, maxLength: number = 35) => {
                   <NSelect
                     clearable
                     v-else-if="param.type === 'select'"
-                    v-model:value="paramValues[index] as string"
+                    v-model:value="paramValues[param.name] as string"
                     :options="getSelectOptions(param)"
                     placeholder="请选择"
                   />
                   <NInputGroup v-else-if="param.type === 'file'">
                     <NInput
                       clearable
-                      v-model:value="paramValues[index] as string"
+                      v-model:value="paramValues[param.name] as string"
                       placeholder="请选择文件路径"
                       style="flex: 1;"
                     />
@@ -305,7 +307,7 @@ const truncatePath = (path: string, maxLength: number = 35) => {
                   <NInputGroup v-else-if="param.type === 'directory'">
                     <NInput
                       clearable
-                      v-model:value="paramValues[index] as string"
+                      v-model:value="paramValues[param.name] as string"
                       placeholder="请选择目录路径"
                       style="flex: 1;"
                     />
@@ -319,7 +321,7 @@ const truncatePath = (path: string, maxLength: number = 35) => {
                   <NInputGroup v-else>
                     <NInput
                       clearable
-                      v-model:value="paramValues[index] as string"
+                      v-model:value="paramValues[param.name] as string"
                       placeholder="请输入值"
                       style="flex: 1;"
                     />

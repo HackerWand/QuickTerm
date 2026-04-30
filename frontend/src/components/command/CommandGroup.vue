@@ -105,7 +105,7 @@ const handleCopy = async (command: Command) => {
         </NTooltip>
       </div>
     </div>
-    <NFlex v-show="!collapsed" direction="column" :gap="10">
+    <NFlex v-show="!collapsed" :gap="10" vertical>
       <template v-for="(command, index) in commands" :key="command.id">
         <NThing style="cursor: pointer;" @click="emit('quick-edit-command', command)">
           <template #header>
@@ -113,12 +113,12 @@ const handleCopy = async (command: Command) => {
           </template>
           <template v-if="command.content && command.content !== command.name">
             <NEllipsis :line-clamp="2">
-              <NText :depth="3">{{ command.content }}</NText>
+              <NText style="word-break: break-all;" :depth="3">{{ command.content }}</NText>
             </NEllipsis>
           </template>
           <template #description v-if="command.description">
             <NEllipsis :line-clamp="2">
-              <NText :depth="3">{{ command.description }}</NText>
+              <NText style="word-break: break-all;" :depth="3">{{ command.description }}</NText>
             </NEllipsis>
           </template>
           <template #action>

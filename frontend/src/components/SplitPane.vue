@@ -50,6 +50,7 @@ const registerTerminal = (id: string, el: any) => {
     v-if="data.direction" 
     :direction="data.direction === 'horizontal' ? 'horizontal' : 'vertical'"
     :default-size="firstPaneSize"
+    :resize-trigger-size="1"
   >
     <template #1>
       <SplitPane
@@ -84,34 +85,32 @@ const registerTerminal = (id: string, el: any) => {
       height: 0
     }">
       <template #suffix v-if="data.tabs.length > 0">
-        <NButton
-          size="tiny"
-          @click="handleSplit('horizontal')"
-          text
-        >
-          <NIcon><ArrowAutofitWidth20Filled /></NIcon>
-        </NButton>
-        <NButton
-          size="tiny"
-          @click="handleSplit('vertical')"
-          text
-        >
-          <NIcon><ArrowAutofitHeight20Filled /></NIcon>
-        </NButton>
-        <NButton
-          size="tiny"
-          @click="handleAddTab"
-          text
-        >
-          <NIcon><Add /></NIcon>
-        </NButton>
+        <NFlex :size="2">
+          <NButton size="small" @click="handleSplit('horizontal')" text>
+            <template #icon>
+              <NIcon><ArrowAutofitWidth20Filled /></NIcon>
+            </template>
+          </NButton>
+          <NButton size="small" @click="handleSplit('vertical')" text>
+            <template #icon>
+              <NIcon><ArrowAutofitHeight20Filled /></NIcon>
+            </template>
+          </NButton>
+          <NButton size="small" @click="handleAddTab" text>
+            <template #icon>
+              <NIcon><Add /></NIcon>
+            </template>
+          </NButton>
+        </NFlex>
       </template>
       <NTabPane v-if="data.tabs.length === 0" :name="0">
         <template #tab>
           <NFlex justify="space-between" @click="handleAddTab">
             <span>新增终端</span>
-            <NButton size="tiny" text>
-              <NIcon><Add /></NIcon>
+            <NButton size="small" text>
+              <template #icon>
+                <NIcon><Add /></NIcon>
+              </template>
             </NButton>
           </NFlex>
         </template>
@@ -153,6 +152,6 @@ const registerTerminal = (id: string, el: any) => {
   transition: all .3s;
 }
 .pane-container.active {
-  border-color: var(--n-bar-color);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 </style>
