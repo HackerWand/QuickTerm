@@ -338,14 +338,16 @@ func (a *App) OpenFileDialog() (string, error) {
 
 func (a *App) OpenFileSelectorDialog() (string, error) {
 	result, err := runtime.OpenFileDialog(a.ctx, runtime.OpenDialogOptions{
-		Title: "选择文件",
+		Title:                "选择文件",
+		CanCreateDirectories: true,
 	})
 	return result, err
 }
 
 func (a *App) OpenDirectorySelectorDialog() (string, error) {
 	result, err := runtime.OpenDirectoryDialog(a.ctx, runtime.OpenDialogOptions{
-		Title: "选择目录",
+		Title:                "选择目录",
+		CanCreateDirectories: true,
 	})
 	return result, err
 }

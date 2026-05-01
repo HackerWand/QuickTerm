@@ -61,7 +61,7 @@ const handleCopy = async (command: Command) => {
 
 <template>
   <div class="command-group">
-    <div class="group-header">
+    <div class="group-header" v-if="group">
       <div class="group-title" @click="toggleCollapse">
         <NIcon size="16" class="collapse-icon" :class="{ 'collapse-icon-rotated': !collapsed }">
           <ChevronForward />

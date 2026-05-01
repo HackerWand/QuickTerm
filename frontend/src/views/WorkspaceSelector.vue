@@ -49,12 +49,13 @@ let importData: models.WorkspaceExport | null = null
 const loadWorkspaces = async () => {
   try {
     isLoading.value = true
-    message.info('工作空间加载中...')
     const result = await App.GetWorkspaces()
     workspaces.value = result
-    message.success('工作空间加载成功')
   } catch (error) {
-    message.error('加载工作空间失败')
+    dialog.error({
+      title: '加载工作空间失败',
+      content: (error as Error).message
+    })
     console.error(error)
   } finally {
     isLoading.value = false
@@ -209,7 +210,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <NCard content-scrollable title="QuickTerm" hoverable style="width: 80vw; max-width: 800px; max-height: 80vh; position: absolute; top: 10%; bottom: 10%; left: 50%; transform: translate(-50%, 0);">
+  <NCard content-scrollable title="QuickTerm" hoverable style="width: 80vw; max-width: 800px; max-height: 80vh; position: absolute; top: 10%; left: 50%; transform: translate(-50%, 0);">
     <NList v-if="workspaces.length > 0" :bordered="false">
       <NListItem v-for="workspace in workspaces" :key="workspace.id">
         <NFlex justify="space-between" align="center">
