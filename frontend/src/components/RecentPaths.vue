@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
-import { NButton, NIcon, NPopconfirm, useMessage, useLoadingBar } from 'naive-ui'
-import { Trash, Add } from '@vicons/ionicons5'
+import { NButton, NIcon, NPopconfirm, useMessage, useDialog, useLoadingBar } from 'naive-ui'
+import { Trash, Add, OpenOutline } from '@vicons/ionicons5'
 import { useRecentPathStore } from '../stores/recentPath'
 import { useWorkspaceStore } from '../stores/workspace'
+import { useTerminalStore } from '../stores/terminal'
 import * as App from '../../wailsjs/go/main/App'
 import type { RecentPath } from '../types'
 
@@ -13,9 +14,11 @@ interface Emits {
 
 const emit = defineEmits<Emits>()
 const message = useMessage()
+const dialog = useDialog()
 const loadingBar = useLoadingBar()
 const recentPathStore = useRecentPathStore()
 const workspaceStore = useWorkspaceStore()
+const terminalStore = useTerminalStore()
 
 const workspaceId = computed(() => {
   return workspaceStore.currentWorkspace?.id || 0
@@ -47,6 +50,27 @@ const handleCopyPath = async (path: string) => {
     message.error('复制失败')
   }
   emit('copy-path', path)
+}
+
+const handleNavigateToPath = async (path: string) => {
+  const activeId = terminalStore.activeTerminalId
+  if (!activeId) {
+    message.warning('没有激活的终端，请先点击一个终端')
+    return
+  }
+  try {
+    const dirPath = await App.GetDirectoryPath(path)
+    terminalStore.focusTerminal(activeId)
+    await new Promise(resolve => setTimeout(resolve, 100))
+    terminalStore.writeToTerminal(activeId, `cd "${dirPath}"\n`)
+    message.success(`已导航到: ${dirPath}`)
+  } catch (error) {
+    dialog.error({
+      title: '导航到路径失败',
+      content: '请检查路径是否存在或是否可访问:' + (error as Error).message
+    })
+    console.error(error)
+  }
 }
 
 const handleDeletePath = async (path: RecentPath) => {
@@ -141,6 +165,17 @@ onMounted(() => {
           @click="handleCopyPath(path.path)"
         >
           <span class="path-text">{{ truncatePath(path.path) }}</span>
+          <NButton
+            quaternary
+            size="tiny"
+            circle
+            class="navigate-button"
+            @click.stop="handleNavigateToPath(path.path)"
+          >
+            <template #icon>
+              <NIcon><OpenOutline /></NIcon>
+            </template>
+          </NButton>
           <NPopconfirm
             positive-text="确定"
             negative-text="取消"
@@ -234,12 +269,14 @@ onMounted(() => {
   margin-right: 8px;
 }
 
-.delete-button {
+.delete-button,
+.navigate-button {
   opacity: 0;
   transition: opacity 0.2s;
 }
 
-.path-item:hover .delete-button {
+.path-item:hover .delete-button,
+.path-item:hover .navigate-button {
   opacity: 1;
 }
 
